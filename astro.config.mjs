@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
 
+// https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind()]
+  site: 'https://Harutyun-Mkhitaryan.github.io', 
+  // ВАЖНО: здесь теперь новое имя репозитория!
+  base: '/Mariam-Art', 
 });
