@@ -1,0 +1,51 @@
+---
+// src/components/Hero.astro
+import heroImage from '../assets/hero.jpg'; 
+---
+
+<section class="relative min-h-screen w-full bg-gradient-to-br from-[#231f1e] to-[#0f0d0c] text-[#E8E3D9] flex items-center justify-center overflow-hidden pt-24 lg:pt-0">
+  <div class="max-w-[90rem] mx-auto w-full px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
+    
+    <div class="flex flex-col justify-center order-2 lg:order-1 z-10">
+      
+      <span id="hero-tag" class="font-serif italic tracking-[0.35em] text-[#B0906D] text-base md:text-lg mb-6 md:mb-8 opacity-0 translate-y-4 select-none">
+        Digital Art Portfolio
+      </span>
+      
+      <h1 id="hero-title" class="font-serif font-light tracking-tight text-5xl sm:text-6xl lg:text-[6.5rem] leading-[1.1] mb-6 md:mb-8 opacity-0 translate-y-8 select-none drop-shadow-2xl">
+        <span class="block tracking-wide text-[#f2efe9]">ART</span>
+        <span class="font-normal italic text-[#d4c5b0] tracking-normal block mt-2">Mariam</span>
+      </h1>
+      
+      <p id="hero-subtitle" class="font-serif italic text-[#B0906D] text-lg md:text-xl font-light leading-relaxed max-w-md opacity-0 translate-y-8">
+        Творческий путь через призму цифрового искусства и глубоких смыслов.
+      </p>
+    </div>
+
+    <div class="relative h-auto aspect-[4/3] sm:aspect-[3/2] lg:h-[85vh] lg:aspect-auto w-full order-1 lg:order-2 overflow-hidden rounded-2xl md:rounded-[2rem] border border-[#3a3330] shadow-[0_25px_60px_rgba(0,0,0,0.9)]" id="hero-image-wrapper">
+      <img 
+        src={heroImage.src} 
+        alt="Art Mariam" 
+        class="w-full h-full object-cover scale-110 md:scale-125 object-center origin-center" 
+        id="hero-image"
+      />
+    </div>
+    
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1.6 }});
+
+    gsap.set('#hero-image-wrapper', { clipPath: 'inset(100% 0% 0% 0%)' });
+    
+    tl.to('#hero-image-wrapper', { clipPath: 'inset(0% 0% 0% 0%)', duration: 2.2, ease: 'expo.inOut' })
+      .to('#hero-image', { scale: 1, duration: 2.8, ease: 'power2.out' }, "-=1.6")
+      .to('#hero-tag', { opacity: 1, y: 0 }, "-=2.2")
+      .to('#hero-title', { opacity: 1, y: 0 }, "-=1.9")
+      .to('#hero-subtitle', { opacity: 1, y: 0 }, "-=1.6");
+  });
+</script>

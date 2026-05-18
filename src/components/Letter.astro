@@ -1,0 +1,222 @@
+---
+// src/components/Letter.astro
+import stampImage from '../assets/stamp.png';
+---
+
+<section id="letter-section" class="relative min-h-screen w-full bg-gradient-to-b from-[#0f0d0c] to-[#2a221e] flex flex-col items-center justify-start pt-16 md:pt-24 pb-24 transition-all">
+  
+  <div class="text-center mb-8 md:mb-12 opacity-0 translate-y-8 z-10" id="letter-header">
+    <span class="font-serif italic tracking-[0.3em] text-[#B0906D] text-sm md:text-base mb-3 block">
+      Личное послание
+    </span>
+    <h2 class="font-serif font-light text-2xl md:text-4xl text-[#E8E3D9]">
+      Открой, чтобы прочитать
+    </h2>
+  </div>
+
+  <div class="scale-[0.85] sm:scale-100 opacity-0 translate-y-12 mt-4 z-20" id="envelope-container">
+    <div id="invite" class="envelope-wrapper relative w-[380px] h-[260px] cursor-pointer group mx-auto">
+        
+      <div class="absolute inset-0 bg-[#e3d5b8] rounded-md shadow-2xl z-10 border border-[#d4c3a3]"></div>
+      <div class="absolute inset-x-2 bottom-2 top-10 bg-[#cbb897] rounded-sm z-10 shadow-inner"></div>
+
+      <div class="pocket-flaps"></div>
+      <div class="top-flap"></div>
+
+      <div id="invite-card" class="invite-card bg-[#fcfaf8] shadow-2xl flex flex-col items-center justify-start text-center border border-[#eaddb6] overflow-hidden rounded-md">
+          
+          <div id="letter-content" class="w-full h-max flex flex-col items-center justify-center opacity-100 pb-4">
+            
+            <h3 id="letter-title" class="font-armenian text-xl md:text-3xl text-[#231f1e] mb-4 md:mb-6 min-h-[32px] md:min-h-[40px]" 
+                data-text="Մարիամ ջաաաան 😊 "></h3>
+            
+            <p id="letter-body" class="font-armenian text-[#5a4d46] text-[14px] md:text-base leading-[1.8] md:leading-relaxed font-light max-w-xl mx-auto px-2" 
+                data-text="Իմ լավ ընկեր, լավ մարդ, իսկապես յուրահատուկ ու եզակի մարդ տեսակով։
+Քո նման մաքուր ու պարզ սրտով մարդիկ շատ չեն հանդիպում։
+
+Սրտանց մաղթում եմ, որ միշտ մնաս նույն բարի, լուսավոր ու իրական մարդը, ինչպիսին հիմա կաս, ու կյանքիդ ճանապարհին հասնես մեծ բարձրունքների։
+Տաղանդավոր մարդ ես, ու թող քո ստեղծագործությունները շարունակեն գունավորել այս կյանքը 🎨
+
+Քո ստեղծած ամեն բան մի փոքր պատմություն է,
+իսկ քո նկարները խոսում են այնտեղ, որտեղ բառերը չեն բավականացնում։
+Շնորհակալ եմ քեզ՝ ամեն ինչի համար 🙌"></p>
+            
+            <div id="letter-line" class="mt-6 md:mt-8 w-16 h-[1px] bg-[#B0906D]/50 mx-auto opacity-0 shrink-0"></div>
+            
+            <span id="letter-sign" class="font-armenian block mt-4 md:mt-6 text-sm md:text-base tracking-widest text-[#B0906D] uppercase shrink-0" 
+                data-text="Իմ լավ ընկերսսս 😊
+                Կթերթես ներքեվ 😉😀"></span>
+          </div>
+      </div>
+
+      <div class="animate-stamp absolute top-[135px] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 transition-all duration-300 flex flex-col items-center">
+          <img 
+            src={stampImage.src} 
+            class="w-20 h-20 object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform duration-500" 
+            alt="Сургучная печать"
+          >
+          <span class="mt-2 text-[10px] font-medium tracking-[0.2em] text-[#E8E3D9] uppercase drop-shadow-md">Нажми</span>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Armenian:wght@300;400;500;600&display=swap');
+
+  .font-armenian { font-family: 'Noto Serif Armenian', serif; }
+  .envelope-wrapper { perspective: 1200px; }
+  .pocket-flaps {
+      position: absolute; bottom: 0; left: 0; width: 0; height: 0;
+      border-left: 190px solid #f4ebd0; border-right: 190px solid #f4ebd0;
+      border-bottom: 140px solid #eaddb6; border-top: 120px solid transparent; 
+      z-index: 30; pointer-events: none; filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.05));
+  }
+  .top-flap {
+      position: absolute; top: 0; left: 0; width: 0; height: 0;
+      border-left: 190px solid transparent; border-right: 190px solid transparent;
+      border-top: 140px solid #ebdcc1; transform-origin: top;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+      z-index: 40; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s linear 0.35s;
+      pointer-events: none;
+  }
+  
+  .invite-card {
+      position: absolute; 
+      width: 350px; 
+      height: 240px; 
+      top: 10px; 
+      padding: 2rem;
+  }
+  
+  .is-open .top-flap { transform: rotateX(180deg); z-index: 10; }
+  .is-open .animate-stamp { opacity: 0; transform: translate(-50%, -50%) scale(0.5); pointer-events: none; }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.set('#invite-card', { xPercent: -50, left: "50%", zIndex: 20 });
+
+    const tlSection = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#letter-section',
+        start: 'top 75%',
+      }
+    });
+    tlSection.to('#letter-header', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
+             .to('#envelope-container', { opacity: 1, y: 0, duration: 1.2, ease: 'expo.out' }, "-=0.6");
+
+    // === УЛУЧШЕННАЯ ФУНКЦИЯ ПЕЧАТИ С АВТОСКРОЛЛОМ СТРАНИЦЫ ===
+    async function typeWriter(element, speed = 40) {
+      const text = element.getAttribute('data-text');
+      if (!text) return;
+      
+      element.innerHTML = "";
+      return new Promise(resolve => {
+        let i = 0;
+        function type() {
+          if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            
+            // Магия слежения на мобильных экранах
+            if (window.innerWidth < 768) {
+              const rect = element.getBoundingClientRect();
+              // Задаем нижний порог: если текст опустился ниже, чем 160px от края экрана смартфона
+              const bottomThreshold = window.innerHeight - 160; 
+              
+              if (rect.bottom > bottomThreshold) {
+                // Мягко пододвигаем саму страницу вниз вслед за текстом
+                window.scrollBy(0, rect.bottom - bottomThreshold);
+              }
+            }
+
+            setTimeout(type, speed);
+          } else {
+            resolve();
+          }
+        }
+        type();
+      });
+    }
+
+    const invite = document.getElementById('invite');
+    let isOpened = false;
+
+    if (invite) {
+      invite.addEventListener('click', () => {
+          if(isOpened) return; 
+          isOpened = true;
+          
+          invite.classList.add('is-open'); 
+          
+          const card = document.getElementById('invite-card');
+          const isMobile = window.innerWidth < 768;
+
+          const title = document.getElementById('letter-title');
+          const body = document.getElementById('letter-body');
+          const line = document.getElementById('letter-line');
+          const sign = document.getElementById('letter-sign');
+
+          title.innerHTML = title.getAttribute('data-text');
+          body.innerHTML = body.getAttribute('data-text');
+          sign.innerHTML = sign.getAttribute('data-text');
+          line.style.opacity = "1";
+
+          const targetWidth = isMobile ? window.innerWidth * 0.92 : 700;
+          gsap.set(card, { width: targetWidth, height: "auto", padding: isMobile ? "2rem 1.2rem" : "4rem" });
+          
+          const autoHeight = card.clientHeight + (isMobile ? 20 : 40);
+
+          title.innerHTML = "";
+          body.innerHTML = "";
+          sign.innerHTML = "";
+          line.style.opacity = "0";
+          gsap.set(card, { width: 350, height: 240, padding: "2rem" });
+
+          setTimeout(() => {
+              gsap.set(card, { zIndex: 50 });
+              
+              const tlCard = gsap.timeline({
+                  onComplete: async () => {
+                      await typeWriter(title, 80);
+                      await typeWriter(body, 45); 
+                      gsap.to(line, { opacity: 1, duration: 0.8 });
+                      await typeWriter(sign, 100);
+                  }
+              });
+
+              const targetY = isMobile ? 30 : 10;
+
+              tlCard.to(card, {
+                  y: targetY, 
+                  duration: 0.5,
+                  ease: "power2.out"
+              })
+              .to(card, {
+                  transformOrigin: "top center",
+                  width: targetWidth, 
+                  height: autoHeight, 
+                  y: targetY, 
+                  padding: isMobile ? "2.5rem 1.2rem" : "4rem", 
+                  borderRadius: "6px",
+                  duration: 1.3,
+                  ease: "expo.inOut" 
+              })
+              .to('#letter-section', {
+                  paddingBottom: autoHeight + 100,
+                  duration: 1.3,
+                  ease: "expo.inOut"
+              }, "-=1.3");
+
+          }, 400); 
+      });
+    }
+  });
+</script>

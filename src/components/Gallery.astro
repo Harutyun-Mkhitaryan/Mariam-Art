@@ -1,0 +1,138 @@
+---
+// src/components/Gallery.astro
+import { Image } from 'astro:assets';
+import { artworks } from '../data/gallery';
+---
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Armenian:wght@500;600&display=swap" rel="stylesheet">
+
+<section id="gallery-section" class="relative min-h-screen w-full bg-gradient-to-b from-[#1c1714] to-[#0a0908] py-24 px-4 md:px-12 overflow-hidden antialiased-text">
+  
+  <div class="max-w-7xl mx-auto text-center mb-20 md:mb-32 opacity-0 translate-y-8" id="gallery-header">
+    <span class="font-armenian tracking-[0.2em] text-[#A38A6B] text-sm md:text-base mb-4 block font-semibold">
+      Ցուցահանդես
+    </span>
+    <h2 class="font-serif font-normal text-4xl md:text-6xl text-[#D9CEBF] tracking-tight">
+      Mariam's Digital Art
+    </h2>
+    <div class="mt-6 w-12 h-[1px] bg-[#A38A6B]/30 mx-auto"></div>
+  </div>
+
+  <div class="max-w-5xl mx-auto flex flex-col gap-16 md:gap-32 w-full">
+    
+    {artworks.map((art, index) => {
+      const isEven = index % 2 !== 0; 
+      
+      return (
+        <div class="gallery-item w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center opacity-0 translate-y-16">
+          
+          {/* Изображение */}
+          <div class={`md:col-span-7 relative w-full overflow-hidden rounded-xl border border-stone-800/40 shadow-2xl img-wrapper flex justify-center items-center bg-stone-950/20 ${isEven ? 'md:order-2' : ''}`}>
+            <Image 
+              src={art.image} 
+              alt={art.title} 
+              width={800}
+              class="w-full h-auto max-h-[70vh] md:max-h-[80vh] object-contain gallery-img" 
+              loading={index < 2 ? "eager" : "lazy"}
+            />
+          </div>
+          
+          {/* Текст */}
+          <div class={`md:col-span-5 flex flex-col mt-6 md:mt-0 ${isEven ? 'md:order-1 md:pr-8 text-left md:text-right' : 'md:pl-8'}`}>
+            <span class="text-xs font-mono tracking-widest text-[#A38A6B] font-bold uppercase">{art.tag}</span>
+            
+            {/* Заголовок картины: Вес 600 (Semi-Bold), цвет контрастный бежевый */}
+            <h3 class="font-armenian font-semibold text-2xl md:text-3xl text-[#E3D8C8] mt-3 mb-4 tracking-wide">
+              {art.title}
+            </h3>
+            
+            {/* Описание: Изменен шрифт на Medium (500), увеличен трекинг (tracking-wide) и интервал */}
+            <p class="font-armenian font-medium text-[#C4B7A6] text-base md:text-lg leading-[1.8] tracking-wide m-0">
+              {art.desc}
+            </p>
+          </div>
+          
+        </div>
+      );
+    })}
+
+  </div>
+
+  <footer class="mt-40 text-center w-full select-none">
+    <p class="font-serif italic text-xs tracking-[0.4em] text-[#A38A6B]/40 uppercase">
+      Mkhitaryan Harutyun Production · 2026 
+    </p>
+  </footer>
+
+</section>
+
+<style>
+  /* Принудительно подключаем тяжелые начертания для армянского */
+  .font-armenian { 
+    font-family: 'Noto Serif Armenian', serif; 
+  }
+  
+  /* Инженерный хак для улучшения рендеринга светлого текста на темном фоне */
+  .antialiased-text {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-shadow: 0 0 1px rgba(0,0,0,0.1);
+  }
+
+  /* Отключаем курсив (italic), так как в Noto Serif Armenian 
+     курсивные засечки ломают геометрию букв на экранах телефонов */
+  h3, p {
+    font-style: normal !important;
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.to('#gallery-header', {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#gallery-section',
+        start: 'top 70%',
+      }
+    });
+
+    const items = document.querySelectorAll('.gallery-item');
+    
+    items.forEach((item) => {
+      const img = item.querySelector('.gallery-img');
+      const wrapper = item.querySelector('.img-wrapper');
+
+      gsap.to(item, {
+        opacity: 1,
+        y: 0,
+        duration: 1.4,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: item,
+          start: 'top 85%', 
+        }
+      });
+
+      if (img && wrapper) {
+        gsap.to(img, {
+          yPercent: -4,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: wrapper,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true 
+          }
+        });
+      }
+    });
+  });
+</script>
