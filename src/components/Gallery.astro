@@ -1,138 +1,158 @@
 ---
 // src/components/Gallery.astro
 import { Image } from 'astro:assets';
-import { artworks } from '../data/gallery';
+import { artworks } from '../data/gallery'; // Твой массив с картинами
 ---
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Armenian:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Armenian:wght@400;500;600&display=swap" rel="stylesheet">
 
-<section id="gallery-section" class="relative min-h-screen w-full bg-gradient-to-b from-[#1c1714] to-[#0a0908] py-24 px-4 md:px-12 overflow-hidden antialiased-text">
+<section id="gallery-wrapper" class="relative w-full bg-[#0f0d0c]">
   
-  <div class="max-w-7xl mx-auto text-center mb-20 md:mb-32 opacity-0 translate-y-8" id="gallery-header">
-    <span class="font-armenian tracking-[0.2em] text-[#A38A6B] text-sm md:text-base mb-4 block font-semibold">
-      Ցուցահանդես
-    </span>
-    <h2 class="font-serif font-normal text-4xl md:text-6xl text-[#D9CEBF] tracking-tight">
-      Mariam's Digital Art
-    </h2>
-    <div class="mt-6 w-12 h-[1px] bg-[#A38A6B]/30 mx-auto"></div>
-  </div>
-
-  <div class="max-w-5xl mx-auto flex flex-col gap-16 md:gap-32 w-full">
+  <div class="container-3d sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center">
     
-    {artworks.map((art, index) => {
-      const isEven = index % 2 !== 0; 
+    <div class="gallery-3d w-full h-full absolute">
       
-      return (
-        <div class="gallery-item w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center opacity-0 translate-y-16">
-          
-          {/* Изображение */}
-          <div class={`md:col-span-7 relative w-full overflow-hidden rounded-xl border border-stone-800/40 shadow-2xl img-wrapper flex justify-center items-center bg-stone-950/20 ${isEven ? 'md:order-2' : ''}`}>
-            <Image 
-              src={art.image} 
-              alt={art.title} 
-              width={800}
-              class="w-full h-auto max-h-[70vh] md:max-h-[80vh] object-contain gallery-img" 
-              loading={index < 2 ? "eager" : "lazy"}
-            />
-          </div>
-          
-          {/* Текст */}
-          <div class={`md:col-span-5 flex flex-col mt-6 md:mt-0 ${isEven ? 'md:order-1 md:pr-8 text-left md:text-right' : 'md:pl-8'}`}>
-            <span class="text-xs font-mono tracking-widest text-[#A38A6B] font-bold uppercase">{art.tag}</span>
-            
-            {/* Заголовок картины: Вес 600 (Semi-Bold), цвет контрастный бежевый */}
-            <h3 class="font-armenian font-semibold text-2xl md:text-3xl text-[#E3D8C8] mt-3 mb-4 tracking-wide">
-              {art.title}
-            </h3>
-            
-            {/* Описание: Изменен шрифт на Medium (500), увеличен трекинг (tracking-wide) и интервал */}
-            <p class="font-armenian font-medium text-[#C4B7A6] text-base md:text-lg leading-[1.8] tracking-wide m-0">
-              {art.desc}
-            </p>
-          </div>
-          
+      <div class="frame">
+        <div class="frame__content flex flex-col items-center justify-center text-center">
+          <span class="font-armenian tracking-[0.3em] text-[#B0906D] text-xs md:text-sm uppercase mb-4 opacity-80">
+            Ցուցահանդես
+          </span>
+          <h2 class="font-serif text-4xl md:text-7xl text-[#D9CEBF] tracking-tight">
+            Mariam's Portfolio
+          </h2>
         </div>
-      );
-    })}
+      </div>
 
+      {artworks.map((art, index) => (
+        <div class={`frame ${index % 2 !== 0 ? 'frame_bg' : ''}`}>
+          <div class="frame__content flex flex-col md:flex-row items-center justify-between w-[90vw] md:w-[80vw] max-w-6xl mx-auto h-[80vh] gap-6 md:gap-16">
+            
+            {/* Изображение */}
+            <div class={`w-full md:w-[55%] h-[45%] md:h-[80%] relative shadow-[0_0_40px_rgba(0,0,0,0.8)] rounded-xl overflow-hidden bg-black/50 ${index % 2 !== 0 ? 'md:order-2' : 'md:order-1'}`}>
+              <Image 
+                src={art.image} 
+                alt={art.title} 
+                width={1000}
+                class="w-full h-full object-contain p-2 md:p-4"
+                loading={index < 2 ? "eager" : "lazy"}
+              />
+            </div>
+
+            {/* Текст (Рядом с фото) */}
+            <div class={`w-full md:w-[45%] flex flex-col justify-center text-left ${index % 2 !== 0 ? 'md:order-1 md:pr-10' : 'md:order-2 md:pl-10'}`}>
+              <span class="text-[10px] md:text-xs font-mono tracking-widest text-[#B0906D] font-bold uppercase mb-3 block opacity-80">
+                {art.tag}
+              </span>
+              <h3 class="font-armenian text-2xl md:text-5xl text-[#E3D8C8] mb-4 md:mb-6 leading-tight drop-shadow-md">
+                {art.title}
+              </h3>
+              <p class="font-armenian text-[#C4B7A6] text-sm md:text-lg leading-[1.8] opacity-90">
+                {art.desc}
+              </p>
+            </div>
+            
+          </div>
+        </div>
+      ))}
+
+      <div class="frame frame_bg">
+        <div class="frame__content flex flex-col items-center justify-center h-full">
+          <p class="font-serif text-xs md:text-sm tracking-[0.4em] text-[#B0906D] uppercase text-center">
+            Mkhitaryan Harutyun Production<br><br><span class="opacity-50">2026</span>
+          </p>
+        </div>
+      </div>
+
+    </div>
   </div>
-
- <footer class="mt-32 pb-12 text-center w-full select-none">
-    <p class="font-serif text-[11px] sm:text-sm md:text-base tracking-[0.2em] md:tracking-[0.3em] text-[#B0906D] uppercase drop-shadow-md">
-      Mkhitaryan Harutyun Production · 2026 
-    </p>
-  </footer>
-
 </section>
 
 <style>
-  /* Принудительно подключаем тяжелые начертания для армянского */
-  .font-armenian { 
-    font-family: 'Noto Serif Armenian', serif; 
-  }
-  
-  /* Инженерный хак для улучшения рендеринга светлого текста на темном фоне */
-  .antialiased-text {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-shadow: 0 0 1px rgba(0,0,0,0.1);
+  /* Переносим переменные из твоего CSS */
+  :root {
+    --transition: 0.75s cubic-bezier(.075, .5, 0, 1);
   }
 
-  /* Отключаем курсив (italic), так как в Noto Serif Armenian 
-     курсивные засечки ломают геометрию букв на экранах телефонов */
-  h3, p {
-    font-style: normal !important;
+  .font-armenian {
+    font-family: 'Noto Serif Armenian', serif;
+  }
+
+  .container-3d {
+    perspective: 1500px; /* Глубина перспективы, как в твоем проекте */
+  }
+
+  .gallery-3d {
+    transform-style: preserve-3d;
+  }
+
+  .frame {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Плавная задержка из твоего проекта */
+    transition: transform var(--transition), opacity 0.75s ease;
+    will-change: transform;
+    transform-style: preserve-3d;
+    opacity: 0; /* Изначально скрыты */
+  }
+
+  /* Чередуем фон для эффекта глубины */
+  .frame_bg {
+    background-color: rgba(15, 13, 12, 0.95); /* Цвет #0f0d0c с легкой прозрачностью */
   }
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import ScrollTrigger from 'gsap/ScrollTrigger';
-
   document.addEventListener('DOMContentLoaded', () => {
-    gsap.registerPlugin(ScrollTrigger);
+    // Настройки из твоего app.js
+    const zSpacing = -1000;
+    const scrollSpeed = 5.5; 
 
-    gsap.to('#gallery-header', {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#gallery-section',
-        start: 'top 70%',
-      }
-    });
-
-    const items = document.querySelectorAll('.gallery-item');
+    const frames = Array.from(document.querySelectorAll('.frame')) as HTMLElement[];
+    const wrapper = document.getElementById('gallery-wrapper');
     
-    items.forEach((item) => {
-      const img = item.querySelector('.gallery-img');
-      const wrapper = item.querySelector('.img-wrapper');
+    if (!wrapper || frames.length === 0) return;
 
-      gsap.to(item, {
-        opacity: 1,
-        y: 0,
-        duration: 1.4,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: item,
-          start: 'top 85%', 
+    // Устанавливаем высоту скролла в зависимости от количества элементов
+    // Чтобы скролл не кончился раньше времени
+    const depth = frames.length * 1000; 
+    wrapper.style.height = `${depth}px`;
+
+    function update3DScroll() {
+      // Вычисляем, насколько проскроллен ИМЕННО блок галереи (минус Hero)
+      const wrapperTop = wrapper.offsetTop;
+      const scrollTop = window.scrollY;
+      
+      // relativeScroll будет 0, пока мы смотрим Hero. Как только дойдем до галереи - начнет расти
+      const relativeScroll = Math.max(0, scrollTop - wrapperTop);
+
+      frames.forEach((frame, i) => {
+        // Базовая позиция по Z минус сдвиг от скролла
+        // Это stateless-аналог твоей формулы: zVals[i] += delta * -5.5
+        const zVal = (i * zSpacing) + zSpacing + (relativeScroll * scrollSpeed);
+        
+        const transform = `translateZ(${zVal}px)`;
+        // Прозрачность: исчезает, если уходит за камеру (ближе чем -500 к экрану)
+        const opacity = zVal < Math.abs(zSpacing) / 1.8 ? 1 : 0;
+        
+        // Оптимизация: полностью скрываем элементы, которые улетели далеко за спину
+        if (zVal > 500) {
+          frame.style.visibility = 'hidden';
+        } else {
+          frame.style.visibility = 'visible';
         }
-      });
 
-      if (img && wrapper) {
-        gsap.to(img, {
-          yPercent: -4,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: wrapper,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true 
-          }
-        });
-      }
-    });
+        frame.style.transform = transform;
+        frame.style.opacity = opacity.toString();
+      });
+    }
+
+    // Слушаем скролл
+    window.addEventListener('scroll', update3DScroll, { passive: true });
+    // Вызываем один раз при загрузке, чтобы расставить кадры
+    update3DScroll();
   });
 </script>
